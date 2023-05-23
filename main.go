@@ -58,7 +58,7 @@ func generateSummary(p string) string {
 		if isTargetPath(walkPath, info) {
 			// 将目录添加到 SUMMARY.md 中
 			depth := strings.Count(walkPath, "/") - rootDepth
-			name := filepath.Base(walkPath)
+			name := strings.TrimSuffix(filepath.Base(walkPath), filepath.Ext(walkPath))
 			indent := strings.Repeat("  ", depth)
 			summary += fmt.Sprintf("\n%s- [%s](%s/README.md)", indent, name, walkPath)
 			// 将文件添加到 SUMMARY.md 中
@@ -73,7 +73,7 @@ func generateSummary(p string) string {
 				if isTargetFile(file) {
 					targetFiles++
 					indent := strings.Repeat("  ", depth+1)
-					summary += fmt.Sprintf("\n%s- [%s](%s/%s)", indent, file.Name(), walkPath, file.Name())
+					summary += fmt.Sprintf("\n%s- [%s](%s/%s)", indent, strings.TrimSuffix(file.Name(), filepath.Ext(file.Name())), walkPath, file.Name())
 				}
 			}
 			// 判断目录是否存在 README.md 文件，不存在并且包含目标文件则自动生成
