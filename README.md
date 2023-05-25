@@ -79,5 +79,10 @@ gitbook-summary-generator start -f
 6. 使用 `-ignored-dirs` 指定忽略的目录，多个目录使用 `,` 分隔。
 
 ```bash
-gitbook-summary-generator start -f -d ./Notes --summary-file ./Notes/SUMMARY.md --summary-title Notes --readme-title Notes --ignored-dirs draft,tmp
+gitbook-summary-generator start -f \
+  -d ./Notes \
+  --summary-file ./Notes/SUMMARY.md \
+  --summary-title Notes \
+  --readme-title Notes \
+  --ignored-dirs draft,tmp
 ```
