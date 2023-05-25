@@ -14,10 +14,26 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package main
+package cmd
 
-import "github.com/poneding/gitbook-summary-generator/cmd"
+import (
+	"fmt"
 
-func main() {
-	cmd.Execute()
+	"github.com/spf13/cobra"
+)
+
+var version = "v1.1.0"
+
+// versionCmd represents the version command
+var versionCmd = &cobra.Command{
+	Use:   "version",
+	Short: "Version",
+	Long:  `Version`,
+	Run: func(cmd *cobra.Command, args []string) {
+		fmt.Printf("version: %s\n", version)
+	},
+}
+
+func init() {
+	rootCmd.AddCommand(versionCmd)
 }
