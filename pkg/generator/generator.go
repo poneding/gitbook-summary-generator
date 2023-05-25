@@ -28,7 +28,21 @@ import (
 type summaryEntry struct {
 	Path              string
 	SubSummaryEntries []*summaryEntry
-	SubSummaryTitles  map[string]string
+	SubSummaryLinks   []summaryLink
+}
+
+// summaryLink -
+type summaryLink struct {
+	title string
+	path  string
+}
+
+// newSummaryEntry -
+func newSummaryLink(title, path string) summaryLink {
+	return summaryLink{
+		title: title,
+		path:  path,
+	}
 }
 
 // summaryGenerator summary 生成器
@@ -65,8 +79,8 @@ func NewSummaryGenerator(opt *GeneratorOption) *summaryGenerator {
 
 	return &summaryGenerator{
 		summaryEntry: &summaryEntry{
-			Path:             opt.Path,
-			SubSummaryTitles: make(map[string]string),
+			Path:            opt.Path,
+			SubSummaryLinks: make([]summaryLink, 0),
 		},
 		ReadmeTitle:  opt.ReadmeTitle,
 		SummaryTitle: opt.SummaryTitle,
@@ -143,14 +157,14 @@ func setupSummaryEntries(se *summaryEntry, ignoredDirs []string) *summaryEntry {
 		}
 		if isEffectiveDir(dirEntry) {
 			subSummaryEntry := setupSummaryEntries(&summaryEntry{
-				Path:             path,
-				SubSummaryTitles: make(map[string]string),
+				Path:            path,
+				SubSummaryLinks: make([]summaryLink, 0),
 			}, ignoredDirs)
 			se.SubSummaryEntries = append(se.SubSummaryEntries, subSummaryEntry)
 			continue
 		}
 		if isEffectiveMdFile(dirEntry) {
-			se.SubSummaryTitles[dirEntry.Name()] = path
+			se.SubSummaryLinks = append(se.SubSummaryLinks, newSummaryLink(dirEntry.Name(), path))
 		}
 	}
 
@@ -170,10 +184,10 @@ func (se *summaryEntry) generate(summary string) string {
 		summary = subSummaryEntry.generate(summary)
 	}
 
-	for title, path := range se.SubSummaryTitles {
-		depth = strings.Count(path, "/")
+	for _, sl := range se.SubSummaryLinks {
+		depth = strings.Count(sl.path, "/")
 		indent = strings.Repeat("  ", depth)
-		summary += fmt.Sprintf("\n%s- [%s](%s)", indent, title, path)
+		summary += fmt.Sprintf("\n%s- [%s](%s)", indent, sl.title, sl.path)
 	}
 	if se.hasInvaliadMdFile() && !strings.HasSuffix(summary, "\n") {
 		summary += "\n"
