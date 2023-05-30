@@ -177,7 +177,9 @@ func (se *summaryEntry) generate(summary string) string {
 	indent := strings.Repeat("  ", depth)
 
 	if se.hasInvaliadMdFile() && !isRootPath(se.Path) {
-		summary += fmt.Sprintf("\n%s- [%s](%s)", indent, pathBaseName(se.Path), filepath.Join(se.Path, "README.md"))
+		// 编码路径中的空格
+		url := strings.ReplaceAll(se.Path, " ", "%20")
+		summary += fmt.Sprintf("\n%s- [%s](%s)", indent, pathBaseName(se.Path), filepath.Join(url, "README.md"))
 	}
 
 	for _, subSummaryEntry := range se.SubSummaryEntries {
@@ -187,7 +189,9 @@ func (se *summaryEntry) generate(summary string) string {
 	for _, sl := range se.SubSummaryLinks {
 		depth = strings.Count(sl.path, "/")
 		indent = strings.Repeat("  ", depth)
-		summary += fmt.Sprintf("\n%s- [%s](%s)", indent, sl.title, sl.path)
+		// 编码路径中的空格
+		url := strings.ReplaceAll(sl.path, " ", "%20")
+		summary += fmt.Sprintf("\n%s- [%s](%s)", indent, sl.title, url)
 	}
 	if se.hasInvaliadMdFile() && !strings.HasSuffix(summary, "\n") {
 		summary += "\n"
