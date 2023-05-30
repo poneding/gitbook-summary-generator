@@ -25,7 +25,6 @@ import (
 var hasMdFileMap = make(map[string]bool)
 
 // hasMdFile 判断目录下是否有合格的 .md 文件
-// 判断合格的条件：.md 文件不能包含空格
 func hasInvaliadMdFile(dir string) bool {
 	if b, ok := hasMdFileMap[dir]; ok {
 		return b
@@ -42,7 +41,7 @@ func hasInvaliadMdFile(dir string) bool {
 	}
 
 	for _, file := range subFiles {
-		if filepath.Ext(file.Name()) == ".md" && !strings.Contains(file.Name(), " ") {
+		if filepath.Ext(file.Name()) == ".md" {
 			hasMdFileMap[dir] = true
 			return true
 		}
@@ -61,24 +60,14 @@ func hasInvaliadMdFile(dir string) bool {
 }
 
 // isValidDir 判断是否是有效的目录
-// 1. 是目录；2. 目录名不包含空格
 func isEffectiveDir(dir os.DirEntry) bool {
-	if !dir.IsDir() {
-		return false
-	}
-	if strings.Contains(dir.Name(), " ") {
-		return false
-	}
-	return true
+	return dir.IsDir()
 }
 
 // isEffectiveMdFile 判断是否是有效的 markdown 文件
-// 1. 不是目录；2. 文件名不包含空格；3. 不是 README.md 或 SUMMARY.md；4. 是 .md 文件
+// 1. 不是目录；2. 不是 README.md 或 SUMMARY.md；3. 是 .md 文件
 func isEffectiveMdFile(file os.DirEntry) bool {
 	if file.IsDir() {
-		return false
-	}
-	if strings.Contains(file.Name(), " ") {
 		return false
 	}
 	if file.Name() == "README.md" || file.Name() == "SUMMARY.md" {
