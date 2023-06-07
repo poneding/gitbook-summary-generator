@@ -164,7 +164,7 @@ func setupSummaryEntries(se *summaryEntry, ignoredDirs []string) *summaryEntry {
 			continue
 		}
 		if isEffectiveMdFile(dirEntry) {
-			title := strings.TrimRight(dirEntry.Name(), ".md")
+			title := strings.TrimSuffix(dirEntry.Name(), ".md")
 			se.SubSummaryLinks = append(se.SubSummaryLinks, newSummaryLink(title, path))
 		}
 	}
