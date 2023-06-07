@@ -1,18 +1,18 @@
 # gitbook-summary-generator
 
-English | [中文](./README_zh.md)
+[English](./README.md) | 中文
 
-`gitbook-summary-generator`  is a tool that automatically generates Gitbook SUMMARY.md.
+`gitbook-summary-generator` 是一款自动生成 Gitbook SUMMARY.md 的工具。
 
-## Download
+## 下载
 
 ```bash
 go install github.com/poneding/gitbook-summary-generator@latest
 ```
 
-## Usage
+## 使用
 
-### View help information
+### 查看帮助信息
 
 ```bash
 $ gitbook-summary-generator -h
@@ -49,7 +49,7 @@ Flags:
       --summary-title string   Gitbook summary title
 ```
 
-### Command auto-completion
+### 命令自动补全
 
 ```bash
 # bash
@@ -59,26 +59,26 @@ source <(gitbook-summary-generator completion bash)
 source <(gitbook-summary-generator completion zsh)
 ```
 
-### View version
+### 查看版本信息
 
 ```bash
 gitbook-summary-generator version
 ```
 
-### Generate SUMMARY
+### 生成 SUMMARY
 
 ```bash
 gitbook-summary-generator start -f
 ```
 
-Arguments description:
+参数说明：
 
-1. Use `-f` or `--force` to force an update of the SUMMARY.md. When the file does not exist, it is generated directly by default, and when the file exists, it is not updated by default;
-2. Use `-d` or `--dir` to specify the read directory, and the current directory is read by default;
-3. Use `-summary-file` to specify the Summary generated file, and 1 is generated in the current directory by default;
-4. Use `-readme-title` to specify the Summary file title, which defaults to reading the directory name;
-5. Use `-summary-title` to specify the Readme file title, which defaults to reading directory names;
-6. Use `-ignored-dirs` to specify ignored directories, and multiple directories to separate by `,` .
+1. 使用 `-f` 或 `--force` 强制更新 SUMMARY.md。当文件不存在时，默认直接生成，文件存在时，默认不更新；
+2. 使用 `-d` 或 `--dir` 指定读取目录，默认读取当前目录；
+3. 使用 `-summary-file` 指定 Summary 生成文件，默认在当前目录下生成 `SUMMARY.md`；
+4. 使用 `-readme-title` 指定 Summary 文件标题，默认为读取目录名；
+5. 使用 `-summary-title` 指定 Readme 文件标题，默认为读取目录名；
+6. 使用 `-ignored-dirs` 指定忽略的目录，多个目录使用 `,` 分隔。
 
 ```bash
 gitbook-summary-generator start -f \
